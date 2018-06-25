@@ -52,7 +52,7 @@ $(function(){
             message: "用户名长度必须在6-12位"
           },
           callback: {
-            message: "密码不能为空"
+            message: "密码错误"
           }
         }
       }

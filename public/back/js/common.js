@@ -2,8 +2,65 @@
  * Created by tz on 2018/6/25.
  */
 
+
+// 5. 如果当前用户没有登录, 需要拦截到登陆页面
+//    前端是不知道用户是否登陆了的, 但是后台知道, 想知道, 问后台, (访问后台接口即可)
+//    注意: 需要将登录页, 排除在外面, 就是登录页可以不登录就访问的
 //公共功能
+
+if( location.href.indexOf("login.html") === -1 ) {
+  // 如果索引为 -1, 说明在地址栏参数中没有 login.html 需要登陆拦截
+  $.ajax({
+    type: "get",
+    url: "/employee/checkRootLogin",
+    datatype: "json",
+    success: function(info){
+      console.log(info);
+      if(info.error ===400 ) {
+        //当前用户没登入，拦截到登入页
+        location.href = "login.html";
+      }
+      if(info.success) {
+        // 当前用户已登录, 不需要拦截, 啥事都不用干, 让用户访问页面
+        console.log("当前用户已登入");
+      }
+    }
+  })
+}
+
 $(function(){
   //1 左侧二级菜单切换显示
-  $('.lt_aside .category')
+  $('.lt_aside .category').click(function(){
+    $('.lt_aside .child').stop().slideToggle();
+  })
+
+  //2. 左侧整个侧边栏显示隐藏功能
+  $('.lt_topbar .icon_menu').click(function(){
+    $('.lt_aside').toggleClass("hidemenu");
+    $('.lt_main').toggleClass("hidemenu");
+    $('.lt_topbar').toggleClass("hidemenu");
+  })
+
+  //3. 点击头部推出按钮，显示隐藏模态框
+  $('.lt_topbar .icon_logout').click(function(){
+    //显示模态框
+    $('#logoutModal').modal("show");
+  })
+
+  //4 .点击模态框中的推出按钮，需要进行推出操作（ajax）
+  $('#logoutBtn').click(function(){
+    //发送Ajax请求进行推出操作，让后台销毁当前用户的登入状态
+    $.ajax({
+      type:"get",
+      url: "/employee/employeeLogout",
+      dataType: "json",
+      success: function(info){
+        console.log(info);
+        if( info.success ) {
+          //跳转到登入页面
+          location.href = "login.html";
+        }
+      }
+    })
+  })
 })
