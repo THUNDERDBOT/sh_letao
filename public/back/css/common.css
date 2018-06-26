@@ -144,3 +144,14 @@ ul {
   width: 48% ;
   height: 400px;
 }
+
+/*让所有的th和td都水平垂直居中*/
+.table.table-bordered th,
+.table.table-bordered {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mb_20 {
+  margin-bottom: 20px;
+}
