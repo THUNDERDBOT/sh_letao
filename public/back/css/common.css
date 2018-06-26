@@ -147,7 +147,7 @@ ul {
 
 /*让所有的th和td都水平垂直居中*/
 .table.table-bordered th,
-.table.table-bordered {
+.table.table-bordered td{
   text-align: center;
   vertical-align: middle;
 }
